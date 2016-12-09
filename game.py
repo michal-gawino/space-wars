@@ -16,17 +16,24 @@ class Game:
         self.display_width = 800
         self.display_height = 600
         self.frames = 0
+        self.missiles = pygame.sprite.Group()
         self.enemies = pygame.sprite.Group()
         self.game_display = pygame.display.set_mode((self.display_width, self.display_height))
         self.background = pygame.image.load('images/background.png').convert_alpha()
 
     def update_enemies(self):
         if self.frames % 180 == 0:
-            self.enemies.add(Enemy(100, 100, 'alien.png', 100, 1, 1))
+            enemy = Enemy(100, 100, 'alien.png', 100, 1, 1)
+            self.enemies.add(enemy)
+            self.missiles.add(Missile(enemy.rect.x, enemy.rect.y, 'attack2.png', 1, 1))
         for enemy in self.enemies:
             enemy.move()
             if enemy.health < 0:
                 self.enemies.remove(enemy)
+
+    def update_missiles(self):
+        for missile in self.missiles:
+            missile.move()
 
     def run(self):
         pygame.display.set_caption('Space Wars')
@@ -79,7 +86,6 @@ class Game:
         clock = pygame.time.Clock()
         final_background = pygame.image.load('images/final_screen.png').convert_alpha()
         pygame.mouse.set_visible(False)
-        Missile.missiles.empty()
         GameObjects.objects.empty()
         replay = False
         player = Player(0, self.display_height/2, 'player.png')
@@ -105,11 +111,10 @@ class Game:
             else:
                 player.motion()
                 self.update_enemies()
+                self.update_missiles()
                 Box.spawn(self.frames)
-                player.detect_collisions()
                 Box.movement()
                 player.time_shooting()
-                Missile.movement()
                 self.game_display.fill((0, 0, 0))
                 GameObjects.objects.draw(self.game_display)
                 pygame.display.update()

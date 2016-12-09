@@ -1,5 +1,6 @@
-from box import *
-from enemy import *
+import pygame
+from game_objects import GameObjects
+from missile import Missile
 
 
 class Player(GameObjects):
@@ -27,40 +28,18 @@ class Player(GameObjects):
 
         if self.timer == 25:
             if keys[pygame.K_SPACE]:
-                Missile(self.rect.x + self.image.get_width(), self.rect.y + self.image.get_height()/2 - 8, 'red_laser.png', 0)
+                Missile(self.rect.x + self.image.get_width(), self.rect.y + self.image.get_height()/2 - 8, 'red_laser.png', 0, 1)
                 self.timer = 0
             elif keys[pygame.K_2] and self.missiles > 0:
-                Missile(self.rect.x + self.image.get_width(), self.rect.y + self.image.get_height()/2 - 8, 'missile.png', 2)
+                Missile(self.rect.x + self.image.get_width(), self.rect.y + self.image.get_height()/2 - 8, 'missile.png', 2, 1)
                 self.missiles -= 1
                 self.timer = 0
             elif keys[pygame.K_1] and self.blue_laser > 0:
-                Missile(self.rect.x + 80, self.rect.y + 10, 'blue_laser.png', 1)
-                Missile(self.rect.x + 80, self.rect.y + 55, 'blue_laser.png', 1)
+                Missile(self.rect.x + 80, self.rect.y + 10, 'blue_laser.png', 1, 1)
+                Missile(self.rect.x + 80, self.rect.y + 55, 'blue_laser.png', 1, 1)
                 self.blue_laser -= 1
                 self.timer = 0
 
     def time_shooting(self):
         if self.timer < 25:
             self.timer += 1
-
-    def detect_missiles_collisions(self):
-        collisions = pygame.sprite.spritecollide(self, Missile.missiles, True)
-        if collisions:
-            for missile in collisions:
-                if missile.missile_type in [3, 4, 5]:
-                    self.health -= missile.damage
-
-    def detect_box_collisions(self):
-        collisions = pygame.sprite.spritecollide(self, Box.boxes, True)
-        if collisions:
-            self.missiles += random.randint(2, 3)
-            self.blue_laser += random.randint(6, 7)
-            health = random.randint(5, 15)
-            if self.health + health < 100:
-                self.health += health
-            else:
-                self.health = 100
-
-    def detect_collisions(self):
-        self.detect_missiles_collisions()
-        self.detect_box_collisions()
