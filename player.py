@@ -5,7 +5,7 @@ from enemy import *
 class Player(GameObjects):
 
     def __init__(self, x, y, image):
-        GameObjects.__init__(self, x, y, image)
+        super().__init__(x, y, image)
         self.speed = 3
         self.health = 100
         self.missiles = 3
@@ -50,11 +50,6 @@ class Player(GameObjects):
                 if missile.missile_type in [3, 4, 5]:
                     self.health -= missile.damage
 
-    def detect_enemy_collisions(self):
-        collisions = pygame.sprite.spritecollide(self, Enemy.enemies, True)
-        if collisions:
-            self.health -= 100
-
     def detect_box_collisions(self):
         collisions = pygame.sprite.spritecollide(self, Box.boxes, True)
         if collisions:
@@ -68,5 +63,4 @@ class Player(GameObjects):
 
     def detect_collisions(self):
         self.detect_missiles_collisions()
-        self.detect_enemy_collisions()
         self.detect_box_collisions()

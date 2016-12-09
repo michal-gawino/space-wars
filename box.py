@@ -7,7 +7,7 @@ class Box(GameObjects):
     boxes = pygame.sprite.Group()
 
     def __init__(self, x, y, image):
-        GameObjects.__init__(self, x, y, image)
+        super().__init__(x, y, image)
         GameObjects.objects.add(self)
         Box.boxes.add(self)
         self.speed = 3

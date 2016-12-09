@@ -2,12 +2,11 @@ import os
 import pygame
 from box import Box
 from effect import Effect
-from enemy import Enemy
 from game_objects import GameObjects
 from missile import Missile
 from menu import Menu
 from player import Player
-from top_bar import TopBar
+from enemy import Enemy
 
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 
@@ -16,7 +15,18 @@ class Game:
     def __init__(self):
         self.display_width = 800
         self.display_height = 600
+        self.frames = 0
+        self.enemies = pygame.sprite.Group()
         self.game_display = pygame.display.set_mode((self.display_width, self.display_height))
+        self.background = pygame.image.load('images/background.png').convert_alpha()
+
+    def update_enemies(self):
+        if self.frames % 180 == 0:
+            self.enemies.add(Enemy(100, 100, 'alien.png', 100, 1, 1))
+        for enemy in self.enemies:
+            enemy.move()
+            if enemy.health < 0:
+                self.enemies.remove(enemy)
 
     def run(self):
         pygame.display.set_caption('Space Wars')
@@ -69,11 +79,8 @@ class Game:
         clock = pygame.time.Clock()
         final_background = pygame.image.load('images/final_screen.png').convert_alpha()
         pygame.mouse.set_visible(False)
-        top_bar = TopBar()
-        Enemy.enemies.empty()
         Missile.missiles.empty()
         GameObjects.objects.empty()
-        frames = 0
         replay = False
         player = Player(0, self.display_height/2, 'player.png')
         run = True
@@ -81,8 +88,8 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
-            frames += 1
-            if player.health <= 0 or Enemy.detect_border_collision(player):
+            self.frames += 1
+            if player.health <= 0:
                 final_screen = True
                 while final_screen:
                     for event in pygame.event.get():
@@ -97,20 +104,13 @@ class Game:
                     pygame.display.update()
             else:
                 player.motion()
-                Box.spawn(frames)
+                self.update_enemies()
+                Box.spawn(self.frames)
                 player.detect_collisions()
-                enemies = [Enemy() for _ in range(self._ENEMY_COUNT)]
-                Enemy.spawn(frames)
                 Box.movement()
                 player.time_shooting()
                 Missile.movement()
-                for enemy in enemies:
-                    enemy.movement()
-                Enemy.movement()
-                Enemy.destroy(player)
-                Enemy.detect_collisions()
                 self.game_display.fill((0, 0, 0))
-                top_bar.draw(self.game_display)
                 GameObjects.objects.draw(self.game_display)
                 pygame.display.update()
                 clock.tick(60)
