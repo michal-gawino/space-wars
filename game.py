@@ -1,4 +1,5 @@
 import os
+import random
 import pygame
 from box import Box
 from effect import Effect
@@ -16,6 +17,7 @@ class Game:
         self.display_width = 800
         self.display_height = 600
         self.frames = 0
+        self.box = None
         self.missiles = pygame.sprite.Group()
         self.enemies = pygame.sprite.Group()
         self.game_display = pygame.display.set_mode((self.display_width, self.display_height))
@@ -34,6 +36,13 @@ class Game:
     def update_missiles(self):
         for missile in self.missiles:
             missile.move()
+
+    def update_box(self):
+        if self.frames % 720 == 0:
+            x = random.randint(30, 300)
+            self.box = Box(x, -50, 'chest.png')
+        if self.box is not None:
+            self.box.move()
 
     def run(self):
         pygame.display.set_caption('Space Wars')
@@ -112,8 +121,7 @@ class Game:
                 player.motion()
                 self.update_enemies()
                 self.update_missiles()
-                Box.spawn(self.frames)
-                Box.movement()
+                self.update_box()
                 player.time_shooting()
                 self.game_display.fill((0, 0, 0))
                 GameObjects.objects.draw(self.game_display)
