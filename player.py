@@ -1,12 +1,15 @@
+import os
 import pygame
-from game_objects import GameObjects
+from game_objects import GameObject
 from missile import Missile
+from root import PROJECT_IMAGES
 
 
-class Player(GameObjects):
+class Player(GameObject):
+    _IMAGE_PATH = os.path.join(PROJECT_IMAGES, 'player.png')
 
-    def __init__(self, x, y, image):
-        super().__init__(x, y, image)
+    def __init__(self, x, y):
+        super().__init__(x, y)
         self.speed = 3
         self.health = 100
         self.missiles = 3
@@ -14,7 +17,7 @@ class Player(GameObjects):
         self.timer = 25
         self.score = 0
 
-    def motion(self):
+    def move(self):
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_UP] and self.rect.y - 3 > 30:

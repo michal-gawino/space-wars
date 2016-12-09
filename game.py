@@ -3,7 +3,6 @@ import random
 import pygame
 from box import Box
 from effect import Effect
-from game_objects import GameObjects
 from missile import Missile
 from menu import Menu
 from player import Player
@@ -18,16 +17,16 @@ class Game:
         self.display_height = 600
         self.frames = 0
         self.box = None
+        self.player = None
         self.missiles = pygame.sprite.Group()
         self.enemies = pygame.sprite.Group()
         self.game_display = pygame.display.set_mode((self.display_width, self.display_height))
-        self.background = pygame.image.load('images/background.png').convert_alpha()
 
     def update_enemies(self):
         if self.frames % 180 == 0:
-            enemy = Enemy(100, 100, 'alien.png', 100, 1, 1)
+            enemy = Enemy(100, 100, 100, 1, 1)
             self.enemies.add(enemy)
-            self.missiles.add(Missile(enemy.rect.x, enemy.rect.y, 'attack2.png', 1, 1))
+            self.missiles.add(Missile(enemy.rect.x, enemy.rect.y, 1, 1))
         for enemy in self.enemies:
             enemy.move()
             if enemy.health < 0:
@@ -40,9 +39,17 @@ class Game:
     def update_box(self):
         if self.frames % 720 == 0:
             x = random.randint(30, 300)
-            self.box = Box(x, -50, 'chest.png')
+            self.box = Box(x, -50)
         if self.box is not None:
             self.box.move()
+
+    def update_player(self):
+        self.player.move()
+
+    def draw(self):
+        self.missiles.draw(self.game_display)
+        self.enemies.draw(self.game_display)
+        self.game_display.blit(self.player.image, (self.player.rect.x, self.player.rect.y))
 
     def run(self):
         pygame.display.set_caption('Space Wars')
@@ -95,16 +102,15 @@ class Game:
         clock = pygame.time.Clock()
         final_background = pygame.image.load('images/final_screen.png').convert_alpha()
         pygame.mouse.set_visible(False)
-        GameObjects.objects.empty()
         replay = False
-        player = Player(0, self.display_height/2, 'player.png')
+        self.player = Player(0, self.display_height/2)
         run = True
         while run:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
             self.frames += 1
-            if player.health <= 0:
+            if self.player.health <= 0:
                 final_screen = True
                 while final_screen:
                     for event in pygame.event.get():
@@ -118,13 +124,12 @@ class Game:
                     self.game_display.blit(final_background, (0, 0))
                     pygame.display.update()
             else:
-                player.motion()
                 self.update_enemies()
                 self.update_missiles()
                 self.update_box()
-                player.time_shooting()
+                self.update_player()
                 self.game_display.fill((0, 0, 0))
-                GameObjects.objects.draw(self.game_display)
+                self.draw()
                 pygame.display.update()
                 clock.tick(60)
         if replay:

@@ -1,12 +1,15 @@
+import os
 import random
 import math
 from missile import *
+from root import PROJECT_IMAGES
 
 
-class Enemy(GameObjects):
+class Enemy(GameObject):
+    _IMAGE_PATH = os.path.join(PROJECT_IMAGES, 'alien.png')
 
-    def __init__(self, x, y, image, health, missile, speed):
-        super().__init__(x, y, image)
+    def __init__(self, x, y, health, missile, speed):
+        super().__init__(x, y)
         self.start_pos = y
         self.speed = speed
         self.amplitude = random.randint(1, 15)
