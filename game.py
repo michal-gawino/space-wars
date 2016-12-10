@@ -2,6 +2,7 @@ import os
 import random
 import pygame
 from box import Box
+from menu.instruction_screen import InstructionScreen
 from menu.menu_screen import MenuScreen
 from missile import Missile
 from player import Player
@@ -58,16 +59,14 @@ class Game:
         intro = True
         pygame.init()
         game = False
-        menu = MenuScreen()
+        instructions = InstructionScreen()
         while intro:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     intro = False
-                mouse_x, mouse_y = pygame.mouse.get_pos()
-                menu.create_menu(self.game_display)
-                menu.highlight(self.game_display, mouse_x, mouse_y)
-                pygame.display.update()
 
+                instructions.create(self.game_display)
+                pygame.display.update()
 
     def game_loop(self):
         clock = pygame.time.Clock()

@@ -12,12 +12,14 @@ class MenuScreen:
     _EXIT_BUTTON_PATH = os.path.join(MENU_IMAGES, 'exit.png')
 
     def __init__(self):
-        self.buttons = [Button(100, 100, self._TITLE_IMAGE_PATH), Button(200, 280, self._START_GAME_BUTTON_PATH),
-                        Button(200, 360, self._INSTRUCTION_BUTTON_PATH), Button(330, 440, self._EXIT_BUTTON_PATH)]
+        self.buttons = [Button(200, 280, self._START_GAME_BUTTON_PATH), Button(200, 360, self._INSTRUCTION_BUTTON_PATH),
+                        Button(330, 440, self._EXIT_BUTTON_PATH)]
         self.background = pygame.image.load(self._BACKGROUND_PATH).convert_alpha()
+        self.title = pygame.image.load(self._TITLE_IMAGE_PATH)
 
-    def create_menu(self, screen):
+    def create(self, screen):
         screen.blit(self.background, (0, 0))
+        screen.blit(self.title, (100, 100))
         for button in self.buttons:
             screen.blit(button.image, (button.rect.x, button.rect.y))
 
