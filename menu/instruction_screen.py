@@ -26,7 +26,7 @@ class InstructionScreen:
         self.back_button = Button(550, 500, self._BACK_BUTTON_IMAGE)
         self.background = pygame.image.load(self._BACKGROUND_IMAGE_PATH)
 
-    def create(self, screen):
+    def draw(self, screen):
         screen.blit(self.background, (0, 0))
         for image, position in self.instructions.items():
             screen.blit(pygame.image.load(image).convert_alpha(), position)

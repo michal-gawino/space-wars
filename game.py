@@ -2,8 +2,7 @@ import os
 import random
 import pygame
 from box import Box
-from menu.game_screen import GameScreen
-from menu.instruction_screen import InstructionScreen
+from menu.scene import Scene
 from missile import Missile
 from player import Player
 from enemy import Enemy
@@ -58,13 +57,12 @@ class Game:
         pygame.mouse.set_visible(True)
         pygame.init()
         intro = True
-        game_screen = GameScreen()
+        scene = Scene()
         while intro:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     intro = False
-
-                game_screen.create(self.game_display)
+                scene.draw(self.game_display)
                 pygame.display.update()
 
     def game_loop(self):

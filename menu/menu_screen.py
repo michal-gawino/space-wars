@@ -17,7 +17,7 @@ class MenuScreen:
         self.background = pygame.image.load(self._BACKGROUND_PATH).convert_alpha()
         self.title = pygame.image.load(self._TITLE_IMAGE_PATH)
 
-    def create(self, screen):
+    def draw(self, screen):
         screen.blit(self.background, (0, 0))
         screen.blit(self.title, (100, 100))
         for button in self.buttons:
