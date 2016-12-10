@@ -1,5 +1,5 @@
 import os
-from game_objects import *
+from game_object import *
 from root import PROJECT_IMAGES
 
 

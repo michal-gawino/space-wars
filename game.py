@@ -2,9 +2,7 @@ import os
 import random
 import pygame
 from box import Box
-from effect import Effect
 from missile import Missile
-from menu import Menu
 from player import Player
 from enemy import Enemy
 
@@ -50,53 +48,14 @@ class Game:
         self.missiles.draw(self.game_display)
         self.enemies.draw(self.game_display)
         self.game_display.blit(self.player.image, (self.player.rect.x, self.player.rect.y))
+        if self.box is not None:
+            self.game_display.blit(self.box.image, (self.box.rect.x, self.box.rect.y))
 
     def run(self):
         pygame.display.set_caption('Space Wars')
         pygame.mouse.set_visible(True)
-        stars = Effect(25)
-        stars.generate_stars()
         intro = True
         pygame.init()
-        menu = Menu()
-        game = False
-        while intro:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    intro = False
-
-            menu.create_menu(self.game_display)
-            stars.apply(self.game_display)
-            mouse = pygame.mouse.get_pos()
-            click = pygame.mouse.get_pressed()
-            if 604 > mouse[0] > 200 and 322 > mouse[1] > 280:
-                menu.highlight(self.game_display, (180, 330), 450)
-                if click[0]:
-                    intro = False
-                    game = True
-            elif 596 > mouse[0] > 200 and 402 > mouse[1] > 360:
-                menu.highlight(self.game_display, (180, 410), 450)
-                if click[0]:
-                    instruction = True
-                    while instruction:
-                        for event in pygame.event.get():
-                            if event.type == pygame.QUIT:
-                                instruction = False
-                        mouse = pygame.mouse.get_pos()
-                        click = pygame.mouse.get_pressed()
-                        if 675 > mouse[0] > 550 and 530 > mouse[1] > 500:
-                            if click[0]:
-                                instruction = False
-                        menu.show_instruction(self.game_display)
-                        stars.apply(self.game_display)
-                        pygame.display.update()
-            elif 475 > mouse[0] > 330 and 482 > mouse[1] > 440:
-                menu.highlight(self.game_display, (325, 490), 155)
-                if click[0]:
-                    intro = False
-            pygame.display.update()
-        if game:
-            self.game_loop()
 
     def game_loop(self):
         clock = pygame.time.Clock()
