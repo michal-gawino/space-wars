@@ -2,8 +2,8 @@ import os
 import random
 import pygame
 from box import Box
+from menu.game_screen import GameScreen
 from menu.instruction_screen import InstructionScreen
-from menu.menu_screen import MenuScreen
 from missile import Missile
 from player import Player
 from enemy import Enemy
@@ -56,16 +56,15 @@ class Game:
     def run(self):
         pygame.display.set_caption('Space Wars')
         pygame.mouse.set_visible(True)
-        intro = True
         pygame.init()
-        game = False
-        instructions = InstructionScreen()
+        intro = True
+        game_screen = GameScreen()
         while intro:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     intro = False
 
-                instructions.create(self.game_display)
+                game_screen.create(self.game_display)
                 pygame.display.update()
 
     def game_loop(self):
