@@ -1,20 +1,25 @@
+import os
 import pygame
 from menu.button import Button
+from root import MENU_IMAGES
 
 
 class MenuScreen:
+    _BACKGROUND_PATH = os.path.join(MENU_IMAGES, 'menu.png')
+    _TITLE_IMAGE_PATH = os.path.join(MENU_IMAGES, 'title.png')
+    _START_GAME_BUTTON_PATH = os.path.join(MENU_IMAGES, 'start.png')
+    _INSTRUCTION_BUTTON_PATH = os.path.join(MENU_IMAGES, 'instruction.png')
+    _EXIT_BUTTON_PATH = os.path.join(MENU_IMAGES, 'exit.png')
+
     def __init__(self):
-        self.buttons = [Button(100, 100, 'title.png'), Button(200, 280, 'start.png'), Button(200, 360, 'instruction.png'),
-                        Button(330, 440, 'exit.png')]
-        self.instructions = {'movement.png': (10, 50), 'shooting.png': (10, 370), 'mov1.png': (0, 120), 'mov2.png': (0, 220),
-                             'sh1.png': (50, 425), 'sh2.png': (50, 480), 'back.png': (550, 500)}
-        self.weapons = [('red_laser.png', (290, 440)), ('blue_laser.png', (145, 485)), ('blue_laser.png', (145, 505)),
-                        ('missile.png', (140, 535))]
+        self.buttons = [Button(100, 100, self._TITLE_IMAGE_PATH), Button(200, 280, self._START_GAME_BUTTON_PATH),
+                        Button(200, 360, self._INSTRUCTION_BUTTON_PATH), Button(330, 440, self._EXIT_BUTTON_PATH)]
+        self.background = pygame.image.load(self._BACKGROUND_PATH).convert_alpha()
 
     def create_menu(self, screen):
-        screen.blit(pygame.image.load('images/menu/menu.png').convert_alpha(), (0, 0))
+        screen.blit(self.background, (0, 0))
         for button in self.buttons:
-            button.blit(screen)
+            screen.blit(button.image, (button.rect.x, button.rect.y))
 
     def highlight(self, screen, mouse_x, mouse_y):
         for button in self.buttons:
