@@ -36,3 +36,4 @@ class Button(pygame.sprite.Sprite):
     def is_mouse_on(self, mouse_x, mouse_y):
         return self.x <= mouse_x <= self.x + self.width and \
                self.y <= mouse_y <= self.y + self.height
+

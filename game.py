@@ -2,7 +2,7 @@ import os
 import random
 import pygame
 from box import Box
-from menu.scene import Scene
+from menu.menu_screen import MenuScreen
 from missile import Missile
 from player import Player
 from enemy import Enemy
@@ -45,6 +45,12 @@ class Game:
     def update_player(self):
         self.player.move()
 
+    def update(self):
+        self.update_player()
+        self.update_missiles()
+        self.update_enemies()
+        self.update_box()
+
     def draw(self):
         self.missiles.draw(self.game_display)
         self.enemies.draw(self.game_display)
@@ -56,48 +62,29 @@ class Game:
         pygame.display.set_caption('Space Wars')
         pygame.mouse.set_visible(True)
         pygame.init()
+        menu = MenuScreen()
         intro = True
-        scene = Scene()
         while intro:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     intro = False
-                scene.draw(self.game_display)
-                pygame.display.update()
+                mouse_x, mouse_y = pygame.mouse.get_pos()
+                menu.draw(self.game_display)
+                menu.handle_event(self.game_display, event, mouse_x, mouse_y, self)
+            pygame.display.update()
 
     def game_loop(self):
         clock = pygame.time.Clock()
-        final_background = pygame.image.load('images/final_screen.png').convert_alpha()
         pygame.mouse.set_visible(False)
-        replay = False
         self.player = Player(0, self.display_height/2)
-        run = True
-        while run:
+        end = False
+        while not end:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    run = False
+                    end = True
             self.frames += 1
-            if self.player.health <= 0:
-                final_screen = True
-                while final_screen:
-                    for event in pygame.event.get():
-                        if event.type == pygame.QUIT:
-                            final_screen = False
-                            run = False
-                        elif event.type == pygame.KEYDOWN:
-                            final_screen = False
-                            run = False
-                            replay = True
-                    self.game_display.blit(final_background, (0, 0))
-                    pygame.display.update()
-            else:
-                self.update_enemies()
-                self.update_missiles()
-                self.update_box()
-                self.update_player()
-                self.game_display.fill((0, 0, 0))
-                self.draw()
-                pygame.display.update()
-                clock.tick(60)
-        if replay:
-            self.run()
+            self.update()
+            self.game_display.fill((0, 0, 0))
+            self.draw()
+            pygame.display.update()
+            clock.tick(60)

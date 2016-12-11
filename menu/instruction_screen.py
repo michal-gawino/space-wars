@@ -28,7 +28,21 @@ class InstructionScreen:
 
     def draw(self, screen):
         screen.blit(self.background, (0, 0))
+        screen.blit(self.back_button.image, (self.back_button.rect.x, self.back_button.rect.y))
         for image, position in self.instructions.items():
             screen.blit(pygame.image.load(image).convert_alpha(), position)
         for image, position in self.weapons:
             screen.blit(pygame.image.load(image).convert_alpha(), position)
+
+    def handle_event(self, screen):
+        instruction = True
+        while instruction:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    instruction = False
+            self.draw(screen)
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            if self.back_button.is_mouse_on(mouse_x, mouse_y):
+                if event.type == pygame.MOUSEBUTTONUP:
+                    instruction = False
+            pygame.display.update()
