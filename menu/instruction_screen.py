@@ -1,48 +1,47 @@
-import os
+import itertools
 import pygame
+from image import Image
 from menu.button import Button
-from root import PROJECT_IMAGES, MENU_IMAGES
+from menu.screen import Screen
 
 
-class InstructionScreen:
-    _RED_LASER_PATH = os.path.join(PROJECT_IMAGES, 'red_laser.png')
-    _BLUE_LASER_PATH = os.path.join(PROJECT_IMAGES, 'blue_laser.png')
-    _MISSILE_PATH = os.path.join(PROJECT_IMAGES, 'missile.png')
-    _MOVEMENT_LABEL_IMAGE_PATH = os.path.join(MENU_IMAGES, 'movement.png')
-    _SHOOTING_LABEL_IMAGE_PATH = os.path.join(MENU_IMAGES, 'shooting.png')
-    _MOVEMENT1_IMAGE_PATH = os.path.join(MENU_IMAGES, 'mov1.png')
-    _MOVEMENT2_IMAGE_PATH = os.path.join(MENU_IMAGES, 'mov2.png')
-    _SHOOTING1_IMAGE_PATH = os.path.join(MENU_IMAGES, 'sh1.png')
-    _SHOOTING2_IMAGE_PATH = os.path.join(MENU_IMAGES, 'sh2.png')
-    _BACK_BUTTON_IMAGE = os.path.join(MENU_IMAGES, 'back.png')
-    _BACKGROUND_IMAGE_PATH = os.path.join(MENU_IMAGES, 'instruction_bg.png')
+class InstructionScreen(Screen):
+    _RED_LASER_PATH = 'red_laser.png'
+    _BLUE_LASER_PATH = 'blue_laser.png'
+    _MISSILE_PATH = 'missile.png'
+    _MOVEMENT_LABEL_IMAGE_PATH = 'menu/movement.png'
+    _SHOOTING_LABEL_IMAGE_PATH = 'menu/shooting.png'
+    _MOVEMENT1_IMAGE_PATH = 'menu/mov1.png'
+    _MOVEMENT2_IMAGE_PATH = 'menu/mov2.png'
+    _SHOOTING1_IMAGE_PATH = 'menu/sh1.png'
+    _SHOOTING2_IMAGE_PATH = 'menu/sh2.png'
+    _BACK_BUTTON_IMAGE = 'menu/back.png'
+    _BACKGROUND_IMAGE_PATH = 'menu/instruction_bg.png'
 
-    def __init__(self):
-        self.instructions = {self._MOVEMENT_LABEL_IMAGE_PATH: (10, 50), self._SHOOTING_LABEL_IMAGE_PATH: (10, 370),
-                             self._MOVEMENT1_IMAGE_PATH: (0, 120), self._MOVEMENT2_IMAGE_PATH: (0, 220),
-                             self._SHOOTING1_IMAGE_PATH: (50, 425), self._SHOOTING2_IMAGE_PATH: (50, 480)}
-        self.weapons = [(self._RED_LASER_PATH, (290, 440)), (self._BLUE_LASER_PATH, (145, 485)),
-                        (self._BLUE_LASER_PATH, (145, 505)), (self._MISSILE_PATH, (140, 535))]
+    def __init__(self, main_screen):
+        self.main_screen = main_screen
+        self.instructions = [Image(0, 0, self._BACKGROUND_IMAGE_PATH), Image(10, 50, self._MOVEMENT_LABEL_IMAGE_PATH),
+                             Image(10, 370, self._SHOOTING_LABEL_IMAGE_PATH), Image(0, 120, self._MOVEMENT1_IMAGE_PATH),
+                             Image(0, 200, self._MOVEMENT2_IMAGE_PATH), Image(50, 425, self._SHOOTING1_IMAGE_PATH),
+                             Image(50, 470, self._SHOOTING2_IMAGE_PATH)]
+        self.weapons = [Image(290, 440, self._RED_LASER_PATH), Image(145, 480, self._BLUE_LASER_PATH),
+                        Image(145, 500, self._BLUE_LASER_PATH), Image(140, 525, self._MISSILE_PATH)]
         self.back_button = Button(550, 500, self._BACK_BUTTON_IMAGE)
-        self.background = pygame.image.load(self._BACKGROUND_IMAGE_PATH)
 
-    def draw(self, screen):
-        screen.blit(self.background, (0, 0))
-        screen.blit(self.back_button.image, (self.back_button.rect.x, self.back_button.rect.y))
-        for image, position in self.instructions.items():
-            screen.blit(pygame.image.load(image).convert_alpha(), position)
-        for image, position in self.weapons:
-            screen.blit(pygame.image.load(image).convert_alpha(), position)
+    def draw(self):
+        for image in itertools.chain(self.instructions, self.weapons):
+            image.show(self.main_screen)
+        self.back_button.show(self.main_screen)
 
-    def handle_event(self, screen):
+    def show(self):
         instruction = True
         while instruction:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     instruction = False
-            self.draw(screen)
-            mouse_x, mouse_y = pygame.mouse.get_pos()
-            if self.back_button.is_mouse_on(mouse_x, mouse_y):
+            self.draw()
+            if self.is_mouse_on_button(self.back_button):
+                self.back_button.highlight(self.main_screen)
                 if event.type == pygame.MOUSEBUTTONUP:
                     instruction = False
             pygame.display.update()

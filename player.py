@@ -20,11 +20,11 @@ class Player(GameObject):
     def move(self):
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_UP] and self.rect.y - 3 > 30:
+        if keys[pygame.K_UP] and self.rect.y > 55:
             self.rect.y -= self.speed
-        elif keys[pygame.K_DOWN] and self.rect.y + 3 < 600 - self.image.get_height():
+        elif keys[pygame.K_DOWN] and self.rect.y < 600 - self.image.get_height():
             self.rect.y += self.speed
-        elif keys[pygame.K_LEFT] and self.rect.x + 3 > 0:
+        elif keys[pygame.K_LEFT] and self.rect.x > 0:
             self.rect.x -= self.speed
         elif keys[pygame.K_RIGHT]:
             self.rect.x += self.speed

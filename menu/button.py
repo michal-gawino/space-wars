@@ -1,39 +1,16 @@
-import os
-import pygame
-from root import PROJECT_IMAGES
+from image import Image
 
 
-class Button(pygame.sprite.Sprite):
-    _LINE_IMAGE_PATH = os.path.join(PROJECT_IMAGES, 'blue_laser.png')
+class Button(Image):
+    _LINE_IMAGE_PATH = 'blue_laser.png'
 
-    def __init__(self, x, y, image):
-        self.image = pygame.image.load(image).convert_alpha()
-        line = pygame.image.load(self._LINE_IMAGE_PATH).convert_alpha()
-        self.line = pygame.transform.scale(line, (self.image.get_width(), 3))
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
+    def __init__(self, x, y, image_path):
+        super().__init__(x, y, image_path)
+        self.line = Image(self.x, self.y + self.height, self._LINE_IMAGE_PATH)
+        self.line.scale(self.width, 3)
 
-    @property
-    def width(self):
-        return self.image.get_width()
-
-    @property
-    def height(self):
-        return self.image.get_height()
-
-    @property
-    def x(self):
-        return self.rect.x
-
-    @property
-    def y(self):
-        return self.rect.y
+    def show(self, screen):
+        screen.blit(self.image, (self.x, self.y))
 
     def highlight(self, screen):
-        screen.blit(self.line, (self.rect.x, self.rect.y + self.image.get_height() + 10))
-
-    def is_mouse_on(self, mouse_x, mouse_y):
-        return self.x <= mouse_x <= self.x + self.width and \
-               self.y <= mouse_y <= self.y + self.height
-
+        self.line.show(screen)

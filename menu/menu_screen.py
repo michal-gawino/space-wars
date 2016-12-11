@@ -1,44 +1,42 @@
-import os
+import itertools
 import pygame
+from image import Image
 from menu.button import Button
 from menu.game_screen import GameScreen
 from menu.instruction_screen import InstructionScreen
-from root import MENU_IMAGES
+from menu.screen import Screen
 
 
-class MenuScreen:
-    _BACKGROUND_PATH = os.path.join(MENU_IMAGES, 'menu.png')
-    _TITLE_IMAGE_PATH = os.path.join(MENU_IMAGES, 'title.png')
-    _START_GAME_BUTTON_PATH = os.path.join(MENU_IMAGES, 'start.png')
-    _INSTRUCTION_BUTTON_PATH = os.path.join(MENU_IMAGES, 'instruction.png')
-    _EXIT_BUTTON_PATH = os.path.join(MENU_IMAGES, 'exit.png')
+class MenuScreen(Screen):
 
-    def __init__(self):
-        self.instruction_screen = InstructionScreen()
-        self.game_screen = GameScreen()
-        self.buttons = [Button(200, 280, self._START_GAME_BUTTON_PATH),
-                        Button(200, 360, self._INSTRUCTION_BUTTON_PATH),
-                        Button(330, 440, self._EXIT_BUTTON_PATH)]
-        self.background = pygame.image.load(self._BACKGROUND_PATH).convert_alpha()
-        self.title = pygame.image.load(self._TITLE_IMAGE_PATH)
+    def __init__(self, main_screen):
+        self.main_screen = main_screen
+        self.instruction_screen = InstructionScreen(main_screen)
+        self.game_screen = GameScreen(main_screen)
+        start_button = Button(200, 280, 'menu/start.png')
+        instructions_button = Button(200, 360, 'menu/instruction.png')
+        exit_button = Button(330, 440, 'menu/exit.png')
+        self.button_actions = dict()
+        self.button_actions[start_button] = self.game_screen.show
+        self.button_actions[instructions_button] = self.instruction_screen.show
+        self.button_actions[exit_button] = pygame.quit
+        self.images = [Image(0, 0, 'menu/menu.png'), Image(100, 100, 'menu/title.png')]
 
-    def draw(self, screen):
-        screen.blit(self.background, (0, 0))
-        screen.blit(self.title, (100, 100))
-        for button in self.buttons:
-            screen.blit(button.image, (button.rect.x, button.rect.y))
+    def draw(self):
+        for image in itertools.chain(self.images, self.button_actions):
+            image.show(self.main_screen)
 
-    def handle_event(self, screen, event, mouse_x, mouse_y, game):
+    def show(self):
         pygame.mouse.set_visible(True)
-        for button in self.buttons:
-            if button.is_mouse_on(mouse_x, mouse_y):
-                button.highlight(screen)
-                if event.type == pygame.MOUSEBUTTONUP:
-                    index = self.buttons.index(button)
-                    if index == 0:
-                        self.game_screen.handle_event(game)
-                    elif index == 1:
-                        self.instruction_screen.handle_event(screen)
-                    else:
-                        pygame.quit()
-                break
+        exit_ = False
+        while not exit_:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    return True
+                self.draw()
+                for button, action in self.button_actions.items():
+                    if self.is_mouse_on_button(button):
+                        button.highlight(self.main_screen)
+                        if event.type == pygame.MOUSEBUTTONUP:
+                            action()
+                pygame.display.update()

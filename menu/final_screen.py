@@ -1,8 +1,9 @@
 import os
 import pygame
+from menu.screen import Screen
 from root import PROJECT_IMAGES
 
-class FinalScreen:
+class FinalScreen(Screen):
     _BACKGROUND_IMAGE_PATH = os.path.join(PROJECT_IMAGES, 'final_screen.png')
 
     def __init__(self):
@@ -11,11 +12,6 @@ class FinalScreen:
     def draw(self, screen):
         screen.blit(self.background, (0, 0))
 
-    def handle_event(self):
-        final_screen = True
-        while final_screen:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    final_screen = False
-            pygame.display.update()
+    def show(self):
+        pass
 

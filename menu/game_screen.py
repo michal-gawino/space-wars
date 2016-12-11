@@ -1,18 +1,33 @@
-import os
 import pygame
-from root import PROJECT_IMAGES
+from game import Game
+from image import Image
+from menu.screen import Screen
 
-class GameScreen:
-    _HEALTH_IMAGE_PATH = os.path.join(PROJECT_IMAGES, 'health.jpg')
-    _BAR_IMAGE_PATH = os.path.join(PROJECT_IMAGES, 'bar.png')
 
-    def __init__(self):
-        self.top_bar = [(self._BAR_IMAGE_PATH, (0, 0)), (self._HEALTH_IMAGE_PATH, (20, 4))]
+class GameScreen(Screen):
+    _HEALTH_IMAGE_PATH = 'health.jpg'
+    _BAR_IMAGE_PATH = 'bar.png'
 
-    def draw(self, screen):
-        screen.fill((0, 0, 0))
-        for image, position in self.top_bar:
-            screen.blit(pygame.image.load(image).convert_alpha(), position)
+    def __init__(self, main_screen):
+        self.main_screen = main_screen
+        self.game = Game(main_screen)
+        self.top_bar = [Image(0, 0, self._BAR_IMAGE_PATH), Image(20, 4, self._HEALTH_IMAGE_PATH)]
 
-    def handle_event(self, game):
-        game.game_loop()
+    def draw(self):
+        for image in self.top_bar:
+            image.show(self.main_screen)
+
+    def show(self):
+        end = False
+        clock = pygame.time.Clock()
+        while not end:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    end = True
+            self.game.frames_count += 1
+            self.game.update()
+            self.main_screen.fill((0, 0, 0))
+            self.game.draw()
+            self.draw()
+            clock.tick(60)
+            pygame.display.update()
