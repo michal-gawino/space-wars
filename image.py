@@ -31,5 +31,8 @@ class Image:
     def scale(self, width, height):
         self.image = pygame.transform.scale(self.image, (width, height))
 
+    def rotate(self, angle):
+        return pygame.transform.rotate(self.image, angle)
+
     def show(self, screen):
         screen.blit(self.image, (self.x, self.y))

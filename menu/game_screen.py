@@ -9,7 +9,7 @@ class GameScreen(Screen):
     _BAR_IMAGE_PATH = 'bar.png'
 
     def __init__(self, main_screen):
-        self.main_screen = main_screen
+        super().__init__(main_screen)
         self.game = Game(main_screen)
         self.top_bar = [Image(0, 0, self._BAR_IMAGE_PATH), Image(20, 4, self._HEALTH_IMAGE_PATH)]
 

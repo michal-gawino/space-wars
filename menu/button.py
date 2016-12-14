@@ -9,8 +9,5 @@ class Button(Image):
         self.line = Image(self.x, self.y + self.height, self._LINE_IMAGE_PATH)
         self.line.scale(self.width, 3)
 
-    def show(self, screen):
-        screen.blit(self.image, (self.x, self.y))
-
     def highlight(self, screen):
         self.line.show(screen)

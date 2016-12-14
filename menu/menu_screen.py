@@ -10,7 +10,7 @@ from menu.screen import Screen
 class MenuScreen(Screen):
 
     def __init__(self, main_screen):
-        self.main_screen = main_screen
+        super().__init__(main_screen)
         self.instruction_screen = InstructionScreen(main_screen)
         self.game_screen = GameScreen(main_screen)
         start_button = Button(200, 280, 'menu/start.png')
@@ -19,7 +19,7 @@ class MenuScreen(Screen):
         self.button_actions = dict()
         self.button_actions[start_button] = self.game_screen.show
         self.button_actions[instructions_button] = self.instruction_screen.show
-        self.button_actions[exit_button] = pygame.quit
+        self.button_actions[exit_button] = quit
         self.images = [Image(0, 0, 'menu/menu.png'), Image(100, 100, 'menu/title.png')]
 
     def draw(self):
@@ -27,7 +27,6 @@ class MenuScreen(Screen):
             image.show(self.main_screen)
 
     def show(self):
-        pygame.mouse.set_visible(True)
         exit_ = False
         while not exit_:
             for event in pygame.event.get():

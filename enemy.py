@@ -17,4 +17,5 @@ class Enemy(GameObject):
 
     def move(self):
         self.rect.x -= self.speed
-        self.rect.y = self.amplitude * math.sin(self.rect.x * 0.019) + self.start_pos
+        self.rect.y = self.amplitude * math.sin(self.rect.x * 0.022) + self.start_pos
+

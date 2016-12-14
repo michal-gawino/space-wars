@@ -3,11 +3,14 @@ import pygame
 
 class Screen:
 
+    def __init__(self, main_screen):
+        self.main_screen = main_screen
+
     def draw(self):
-        pass
+        raise NotImplementedError()
 
     def show(self):
-        pass
+        raise NotImplementedError()
 
     @staticmethod
     def is_mouse_on_button(button):
