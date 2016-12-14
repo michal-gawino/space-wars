@@ -3,7 +3,7 @@ import pygame
 from box import Box
 from missile import SpaceRing
 from player import Player
-from enemy import Enemy, Alien, Razor, SpaceStation
+from enemy import SpaceStation
 
 
 class Game:
@@ -39,6 +39,10 @@ class Game:
 
     def update_player(self):
         self.player.move()
+        self.player.time_shooting()
+        missile = self.player.shoot()
+        if missile is not None:
+            self.missiles.add(missile)
 
     def update(self):
         self.update_player()

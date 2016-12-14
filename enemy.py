@@ -1,7 +1,6 @@
-import random
-import math
 from missile import *
 from root import PROJECT_IMAGES
+from strategy import MovementStrategy
 
 
 class Enemy(GameObject):
@@ -9,15 +8,13 @@ class Enemy(GameObject):
 
     def __init__(self, x, y, health, missile, speed):
         super().__init__(x, y)
-        self.start_pos = y
+        self.start_y = y
         self.speed = speed
-        self.amplitude = random.randint(1, 15)
         self.health = health
         self.missile = missile
 
     def move(self):
-        self.rect.x -= self.speed
-        self.rect.y = self.amplitude * math.sin(self.rect.x * 0.022) + self.start_pos
+        self.rect.x, self.rect.y = MovementStrategy.execute(self.rect.x, self.rect.y, self.start_y)
 
 class Alien(Enemy):
     _IMAGE_PATH = os.path.join(PROJECT_IMAGES, 'alien.png')

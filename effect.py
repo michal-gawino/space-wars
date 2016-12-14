@@ -5,7 +5,7 @@ import pygame
 class Effect:
 
     def __init__(self, n):
-        self.stars = [[random.randint(0, 800), random.randint(0, 600)] for x in range(n)]
+        self.stars = [[random.randint(0, 800), random.randint(0, 600)] for _ in range(n)]
 
     def draw(self, screen):
         for star in self.stars:
