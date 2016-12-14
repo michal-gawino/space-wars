@@ -1,9 +1,9 @@
 import random
 import pygame
 from box import Box
-from missile import Missile, Rocket, RedLaser, BlueLaser, Mine, GreenLaser
+from missile import SpaceRing
 from player import Player
-from enemy import Enemy
+from enemy import Enemy, Alien, Razor, SpaceStation
 
 
 class Game:
@@ -18,9 +18,9 @@ class Game:
 
     def update_enemies(self):
         if self.frames_count % 180 == 0:
-            enemy = Enemy(800, 300, 100, 1, 3)
+            enemy = SpaceStation(800, 300, 100, 1, 3)
             self.enemies.add(enemy)
-            self.missiles.add(GreenLaser(enemy.rect.x, enemy.rect.y, 1, 5))
+            self.missiles.add(SpaceRing(enemy.rect.x, enemy.rect.y, 1, 5))
         for enemy in self.enemies:
             enemy.move()
             if enemy.health < 0:
