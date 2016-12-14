@@ -4,6 +4,7 @@ from box import Box
 from missile import SpaceRing
 from player import Player
 from enemy import SpaceStation
+from ship_factory import ShipFactory
 
 
 class Game:
@@ -18,9 +19,7 @@ class Game:
 
     def update_enemies(self):
         if self.frames_count % 180 == 0:
-            enemy = SpaceStation(800, 300, 100, 1, 3)
-            self.enemies.add(enemy)
-            self.missiles.add(SpaceRing(enemy.rect.x, enemy.rect.y, 1, 5))
+            self.enemies.add(ShipFactory.create())
         for enemy in self.enemies:
             enemy.move()
             if enemy.health < 0:

@@ -14,7 +14,7 @@ class Enemy(GameObject):
         self.missile = missile
 
     def move(self):
-        self.rect.x, self.rect.y = MovementStrategy.execute(self.rect.x, self.rect.y, self.start_y)
+        self.rect.x, self.rect.y = MovementStrategy.execute(self.rect.x, self.rect.y, self.speed, self.start_y)
 
 class Alien(Enemy):
     _IMAGE_PATH = os.path.join(PROJECT_IMAGES, 'alien.png')
