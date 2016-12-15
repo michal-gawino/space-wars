@@ -14,7 +14,7 @@ class Player(GameObject):
         self.health = 100
         self.rockets = 3
         self.blue_laser = 12
-        self.timer = 35
+        self.timer = 25
         self.score = 0
 
     def move(self):
@@ -32,7 +32,7 @@ class Player(GameObject):
     def shoot(self):
         keys = pygame.key.get_pressed()
         missile = None
-        if self.timer == 35:
+        if self.timer == 25:
             if keys[pygame.K_SPACE]:
                 missile = RedLaser(self.rect.x + self.image.get_width(), self.rect.y + self.image.get_height()/2 - 7, 35, 3)
                 self.timer = 0
@@ -46,5 +46,5 @@ class Player(GameObject):
         return missile
 
     def time_shooting(self):
-        if self.timer < 35:
+        if self.timer < 25:
             self.timer += 1

@@ -1,21 +1,16 @@
 import pygame
 from game import Game
-from image import Image
 from menu.screen import Screen
 
 
 class GameScreen(Screen):
-    _HEALTH_IMAGE_PATH = 'health.jpg'
-    _BAR_IMAGE_PATH = 'bar.png'
 
     def __init__(self, main_screen):
         super().__init__(main_screen)
         self.game = Game(main_screen)
-        self.top_bar = [Image(0, 0, self._BAR_IMAGE_PATH), Image(20, 4, self._HEALTH_IMAGE_PATH)]
 
     def draw(self):
-        for image in self.top_bar:
-            image.show(self.main_screen)
+        pass
 
     def show(self):
         end = False

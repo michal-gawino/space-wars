@@ -21,7 +21,7 @@ class InstructionScreen(Screen):
     def __init__(self, main_screen):
         super().__init__(main_screen)
         self.instructions = [Image(0, 0, self._BACKGROUND_IMAGE_PATH), Image(10, 50, self._MOVEMENT_LABEL_IMAGE_PATH),
-                             Image(10, 370, self._SHOOTING_LABEL_IMAGE_PATH), Image(0, 120, self._MOVEMENT1_IMAGE_PATH),
+                             Image(10, 370, self._SHOOTING_LABEL_IMAGE_PATH), Image(18, 115, self._MOVEMENT1_IMAGE_PATH),
                              Image(0, 200, self._MOVEMENT2_IMAGE_PATH), Image(50, 425, self._SHOOTING1_IMAGE_PATH),
                              Image(50, 470, self._SHOOTING2_IMAGE_PATH)]
         self.weapons = [Image(290, 440, self._RED_LASER_PATH), Image(145, 480, self._BLUE_LASER_PATH),
