@@ -1,4 +1,5 @@
 import pygame
+from animation import Animation
 from game import Game
 from menu.screen import Screen
 

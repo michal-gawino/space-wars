@@ -10,8 +10,8 @@ class Shield(GameObject):
 
     def __init__(self, x, y):
         super().__init__(x, y)
-        self.duration = 0
         self.activated = False
+        self.duration = 0
 
     def move(self):
         self.rect.y += 3
@@ -21,10 +21,9 @@ class Shield(GameObject):
             self.image = pygame.image.load('images/shield.png').convert_alpha()
             self.activated = True
 
-    def deactivate(self):
-        self.duration += 1
-        if self.duration == 420:
-            return True
-
     def update(self, x, y):
         self.rect.x, self.rect.y = x, y
+        self.duration += 1
+
+    def deactivate(self):
+        return self.duration == 300

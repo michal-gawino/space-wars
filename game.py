@@ -1,5 +1,6 @@
 import random
 import pygame
+from animation import BlueExplosion, RedExplosion
 from box import Box
 from player import Player
 from shield import Shield
@@ -17,6 +18,8 @@ class Game:
         self.player = Player(0, self.display_height/2)
         self.missiles = pygame.sprite.Group()
         self.enemies = pygame.sprite.Group()
+        self.animations = {0: BlueExplosion(), 1: RedExplosion()}
+        self.animation_type = 0
 
     def update_enemies(self):
         if self.frames_count % 180 == 0:
@@ -32,10 +35,12 @@ class Game:
                     enemy.health -= missile.damage
             enemy.move()
             if enemy.health < 0:
+                self.animation_type = random.randint(0, 1)
+                self.animations[self.animation_type].change_postion(enemy.rect.x - 40, enemy.rect.y - 30)
                 self.enemies.remove(enemy)
 
     def update_shield(self):
-        if self.frames_count % 1000 == 0:
+        if self.frames_count % 800 == 0:
             x = random.randint(30, 300)
             self.shield = Shield(x, -50)
         if self.shield is not None:
@@ -67,12 +72,15 @@ class Game:
         if missile is not None:
             self.missiles.add(missile)
         missiles_collisions = spritecollide(self.player, self.missiles, True)
-        if missiles_collisions:
+        if missiles_collisions and self.shield is None:
             for missile in missiles_collisions:
                 self.player.health -= missile.damage
         enemy_collisions = spritecollide(self.player, self.enemies, True)
-        if enemy_collisions:
+        if enemy_collisions and self.shield is None:
             self.player.health = 0
+        else:
+            for enemy in enemy_collisions:
+                enemy.health = 0
 
     def update(self):
         self.update_player()
@@ -89,3 +97,4 @@ class Game:
             self.main_screen.blit(self.box.image, (self.box.rect.x, self.box.rect.y))
         if self.shield is not None:
             self.main_screen.blit(self.shield.image, (self.shield.rect.x, self.shield.rect.y))
+        self.animations[self.animation_type].show(self.main_screen)
