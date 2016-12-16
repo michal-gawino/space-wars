@@ -34,7 +34,7 @@ class Game:
                 for missile in collisions:
                     enemy.health -= missile.damage
             enemy.move()
-            if enemy.health < 0:
+            if enemy.health <= 0:
                 self.animation_type = random.randint(0, 1)
                 self.animations[self.animation_type].change_postion(enemy.rect.x - 40, enemy.rect.y - 30)
                 self.enemies.remove(enemy)
@@ -75,10 +75,10 @@ class Game:
         if missiles_collisions and self.shield is None:
             for missile in missiles_collisions:
                 self.player.health -= missile.damage
-        enemy_collisions = spritecollide(self.player, self.enemies, True)
+        enemy_collisions = spritecollide(self.player, self.enemies, False)
         if enemy_collisions and self.shield is None:
-            self.player.health = 0
-        else:
+                self.player.health = 0
+        elif self.shield and self.shield.activated:
             for enemy in enemy_collisions:
                 enemy.health = 0
 

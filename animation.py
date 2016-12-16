@@ -22,12 +22,12 @@ class Animation(pygame.sprite.Sprite):
 class BlueExplosion(Animation):
     def __init__(self):
         super().__init__()
-        self.images = [Image(0, 0, 'animations/blue_explosion/1.png'), Image(0, 0, 'animations/blue_explosion/2.png'),
-                       Image(0, 0, 'animations/blue_explosion/3.png'), Image(0, 0, 'animations/blue_explosion/4.png'),
-                       Image(0, 0, 'animations/blue_explosion/5.png'), Image(0, 0, 'animations/blue_explosion/6.png'),
-                       Image(0, 0, 'animations/blue_explosion/7.png'), Image(0, 0, 'animations/blue_explosion/8.png'),
-                       Image(0, 0, 'animations/blue_explosion/9.png'), Image(0, 0, 'animations/blue_explosion/10.png'),
-                       Image(0, 0, 'animations/blue_explosion/11.png'), Image(0, 0, 'animations/blue_explosion/12.png')]
+        self.images = [Image(-100, 0, 'animations/blue_explosion/1.png'), Image(-100, 0, 'animations/blue_explosion/2.png'),
+                       Image(-100, 0, 'animations/blue_explosion/3.png'), Image(-100, 0, 'animations/blue_explosion/4.png'),
+                       Image(-100, 0, 'animations/blue_explosion/5.png'), Image(-100, 0, 'animations/blue_explosion/6.png'),
+                       Image(-100, 0, 'animations/blue_explosion/7.png'), Image(-100, 0, 'animations/blue_explosion/8.png'),
+                       Image(-100, 0, 'animations/blue_explosion/9.png'), Image(-100, 0, 'animations/blue_explosion/10.png'),
+                       Image(-100, 0, 'animations/blue_explosion/11.png'), Image(-100, 0, 'animations/blue_explosion/12.png')]
 
 class RedExplosion(Animation):
     def __init__(self):

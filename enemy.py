@@ -11,7 +11,7 @@ class Enemy(GameObject):
         self.start_y = y
         self.health = health
         self.speed = speed
-        self.timer = 120
+        self.timer = 0
 
     def move(self):
         self.rect.x, self.rect.y = MovementStrategy.execute(self.rect.x, self.rect.y, self.speed, self.start_y)
@@ -20,7 +20,7 @@ class Enemy(GameObject):
         pass
 
     def time_shooting(self):
-        if self.timer < 180:
+        if self.timer < 120:
             self.timer += 1
 
 
@@ -31,9 +31,9 @@ class Alien(Enemy):
         super().__init__(x, y, health, speed)
 
     def attack(self):
-        if self.timer == 180:
+        if self.timer == 120:
             self.timer = 0
-            return GreenLaser(self.rect.x - 100, self.rect.y + 20, 1, self.speed + 1)
+            return YellowBeam(self.rect.x - 100, self.rect.y + 20, 1, self.speed + 1)
 
 
 class Razor(Enemy):
@@ -43,7 +43,7 @@ class Razor(Enemy):
         super().__init__(x, y, health, speed)
 
     def attack(self):
-        if self.timer == 180:
+        if self.timer == 120:
             self.timer = 0
             return Mine(self.rect.x - 30, self.rect.y + 30, 1, self.speed + 1)
 
@@ -55,7 +55,7 @@ class SpaceStation(Enemy):
         super().__init__(x, y, health, speed)
 
     def attack(self):
-        if self.timer == 180:
+        if self.timer == 60:
             self.timer = 0
             return SpaceRing(self.rect.x - 100, self.rect.y + 50, 1, self.speed + 1)
 

@@ -20,8 +20,8 @@ class Rocket(Missile):
     def __init__(self, x, y, damage, speed):
         super().__init__(x, y, damage, speed)
 
-class GreenLaser(Missile):
-    _IMAGE_PATH = os.path.join(PROJECT_IMAGES, 'green_laser.png')
+class YellowBeam(Missile):
+    _IMAGE_PATH = os.path.join(PROJECT_IMAGES, 'yellow_beam.png')
 
     def __init__(self, x, y, damage, speed):
         super().__init__(x, y, damage, -speed)

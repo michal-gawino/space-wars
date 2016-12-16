@@ -1,6 +1,6 @@
 import pygame
-from animation import Animation
 from game import Game
+from image import Image
 from menu.screen import Screen
 
 

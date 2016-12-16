@@ -9,6 +9,5 @@ class Strategy:
 class MovementStrategy(Strategy):
 
     def execute(x, y, speed, start_y):
-        return x-speed, 30 * math.sin(x * 0.019) + start_y
-
+        return x-speed, 25 * math.sin(x * 0.023) + start_y
 
