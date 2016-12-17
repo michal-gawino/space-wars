@@ -8,7 +8,7 @@ class Box(GameObject):
 
     def __init__(self, x, y):
         super().__init__(x, y)
-        self.speed = 2
+        self.speed = 3
 
     def move(self):
         self.rect.y += self.speed

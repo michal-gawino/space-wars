@@ -1,4 +1,5 @@
 import os
+import random
 import pygame
 from game_object import GameObject
 from root import PROJECT_IMAGES
@@ -12,9 +13,10 @@ class Shield(GameObject):
         super().__init__(x, y)
         self.activated = False
         self.duration = 0
+        self.speed = 0
 
     def move(self):
-        self.rect.y += 3
+        self.rect.y += self.speed
 
     def activate(self):
         if self.activated is False:
@@ -26,4 +28,9 @@ class Shield(GameObject):
         self.duration += 1
 
     def deactivate(self):
-        return self.duration == 300
+        if self.duration == 300:
+            self.image = pygame.image.load(self._IMAGE_PATH).convert_alpha()
+            self.rect.x, self.rect.y = random.randint(30, 300), -50
+            self.speed = 0
+            self.activated = False
+            self.duration = 0
