@@ -37,6 +37,7 @@ class Game:
                     enemy.health -= missile.damage
             enemy.move()
             if enemy.health <= 0:
+                self.player.score += enemy.points
                 self.animation_type = random.randint(0, 1)
                 self.animations[self.animation_type].change_postion(enemy.rect.x - 40, enemy.rect.y - 30)
                 self.enemies.remove(enemy)
@@ -58,12 +59,18 @@ class Game:
                 self.missiles.remove(missile)
 
     def update_box(self):
-        if self.frames_count % 720 == 0:
+        if self.frames_count % 850 == 0:
             x = random.randint(30, 300)
             self.box = Box(x, -50)
         if self.box is not None:
             self.box.move()
             if collide_rect(self.player, self.box):
+                self.player.rockets += random.randint(1, 3)
+                self.player.blue_laser += random.randint(5, 9)
+                extra_health = random.randint(3, 7)
+                if extra_health + self.player.health <= 100:
+                    self.player.health += extra_health
+                    self.top_bar.update(self.player.health)
                 self.box = None
 
     def update_player(self):
@@ -98,7 +105,14 @@ class Game:
         self.main_screen.blit(self.player.image, (self.player.rect.x, self.player.rect.y))
         if self.box is not None:
             self.main_screen.blit(self.box.image, (self.box.rect.x, self.box.rect.y))
-        if self.shield is not None:
-            self.main_screen.blit(self.shield.image, (self.shield.rect.x, self.shield.rect.y))
+        self.main_screen.blit(self.shield.image, (self.shield.rect.x, self.shield.rect.y))
         self.animations[self.animation_type].show(self.main_screen)
-        self.top_bar.draw(self.main_screen)
+        self.top_bar.draw(self.main_screen, self.player.rockets, self.player.blue_laser, self.player.score)
+
+    def reset(self):
+        self.frames_count = 0
+        self.player.rect.x, self.player.rect.y, self.player.health = 0, self.display_height/2, 100
+        self.player.rockets, self.player.blue_laser, self.player.score = 3, 12, 0
+        self.top_bar = TopBar()
+        self.missiles.empty()
+        self.enemies.empty()

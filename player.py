@@ -34,14 +34,16 @@ class Player(GameObject):
         missile = None
         if self.timer == 25:
             if keys[pygame.K_SPACE]:
-                missile = RedLaser(self.rect.x + self.image.get_width(), self.rect.y + self.image.get_height()/2 - 7, 35, 3)
+                missile = RedLaser(self.rect.x + self.image.get_width(), self.rect.y + self.image.get_height()/2 - 7, 27, 3)
                 self.timer = 0
-            elif keys[pygame.K_2]:
-                missile = Rocket(self.rect.x + self.image.get_width(), self.rect.y + self.image.get_height()/2 - 15, 35, 3)
+            elif keys[pygame.K_2] and self.rockets > 0:
+                missile = Rocket(self.rect.x + self.image.get_width(), self.rect.y + self.image.get_height()/2 - 15, 80, 3)
+                self.rockets -= 1
                 self.timer = 0
-            elif keys[pygame.K_1]:
-                missile = [BlueLaser(self.rect.x + self.image.get_width(), self.rect.y + 5,  35, 3),
-                           BlueLaser(self.rect.x + self.image.get_width(), self.rect.y + self.image.get_height() - 24,  35, 3)]
+            elif keys[pygame.K_1] and self.blue_laser > 0:
+                missile = [BlueLaser(self.rect.x + self.image.get_width(), self.rect.y + 5,  31, 3),
+                           BlueLaser(self.rect.x + self.image.get_width(), self.rect.y + self.image.get_height() - 24,  31, 3)]
+                self.blue_laser -= 1
                 self.timer = 0
         return missile
 

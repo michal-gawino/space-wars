@@ -24,13 +24,13 @@ class YellowBeam(Missile):
     _IMAGE_PATH = os.path.join(PROJECT_IMAGES, 'yellow_beam.png')
 
     def __init__(self, x, y, damage, speed):
-        super().__init__(x, y, damage, -speed)
+        super().__init__(x, y, damage, -abs(speed))
 
 class Mine(Missile):
     _IMAGE_PATH = os.path.join(PROJECT_IMAGES, 'mine.png')
 
     def __init__(self, x, y, damage, speed):
-        super().__init__(x, y, damage, -speed)
+        super().__init__(x, y, damage, -abs(speed))
 
 class BlueLaser(Missile):
     _IMAGE_PATH = os.path.join(PROJECT_IMAGES, 'blue_laser.png')
@@ -49,4 +49,4 @@ class SpaceRing(Missile):
     _IMAGE_PATH = os.path.join(PROJECT_IMAGES, 'ring.png')
 
     def __init__(self, x, y, damage, speed):
-        super().__init__(x, y, damage, -speed)
+        super().__init__(x, y, damage, -abs(speed))

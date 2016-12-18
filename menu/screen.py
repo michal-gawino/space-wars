@@ -6,10 +6,10 @@ class Screen:
     def __init__(self, main_screen):
         self.main_screen = main_screen
 
-    def draw(self):
+    def draw(self, score=None):
         raise NotImplementedError()
 
-    def show(self):
+    def show(self, score=None):
         raise NotImplementedError()
 
     @staticmethod

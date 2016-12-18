@@ -21,6 +21,7 @@ class MenuScreen(Screen):
         self.button_actions[instructions_button] = self.instruction_screen.show
         self.button_actions[exit_button] = quit
         self.images = [Image(0, 0, 'menu/menu.png'), Image(100, 100, 'menu/title.png')]
+        self.planet = Image(-60, 440, 'planet.png')
 
     def draw(self):
         for image in itertools.chain(self.images, self.button_actions):
@@ -31,8 +32,9 @@ class MenuScreen(Screen):
         while not exit_:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    return True
+                    exit_ = True
                 self.draw()
+                self.planet.show(self.main_screen)
                 for button, action in self.button_actions.items():
                     if self.is_mouse_on_button(button):
                         button.highlight(self.main_screen)
