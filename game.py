@@ -29,6 +29,8 @@ class Game:
         if self.frames_count % 180 == 0:
             self.enemies.add(ShipFactory.create())
         for enemy in self.enemies:
+            if enemy.rect.x < 0:
+                self.player.health = 0
             missile = enemy.attack()
             if missile is not None:
                 self.missiles.add(missile)
@@ -120,6 +122,7 @@ class Game:
         self.player.rect.x, self.player.rect.y, self.player.health = 0, self.display_height/2, 100
         self.player.rockets, self.player.blue_laser, self.player.score = 3, 12, 0
         self.top_bar = TopBar()
+        self.shield = Shield(100, -50)
         self.missiles.empty()
         self.enemies.empty()
         self.level = Level()

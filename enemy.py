@@ -38,7 +38,7 @@ class Alien(Enemy):
     def attack(self):
         if self.timer == 120:
             self.timer = 0
-            return YellowBeam(self.rect.x - 60, self.rect.y + 20, 36, abs(self.speed) + 1)
+            return YellowBeam(self.rect.x - 60, self.rect.y + 20, 32, abs(self.speed) + 1)
 
     def move(self):
         self.check_boundary()
@@ -55,7 +55,7 @@ class Razor(Enemy):
     def attack(self):
         if self.timer == 120:
             self.timer = 0
-            return Mine(self.rect.x - 30, self.rect.y + 20, 29, abs(self.speed) + 1)
+            return Mine(self.rect.x - 30, self.rect.y + 20, 23, abs(self.speed) + 1)
 
     def move(self):
         self.check_boundary()

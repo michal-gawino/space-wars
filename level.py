@@ -8,7 +8,7 @@ class Level:
 
     def __init__(self):
         self.current_level = 1
-        self.levels = {1: 2, 2: 2, 3: 2}
+        self.levels = {1: 14, 2: 21, 3: 28}
         self.images = [Image(250, 100, self._LEVEL1_IMAGE_PATH), Image(250, 100, self._LEVEL2_IMAGE_PATH),
                        Image(250, 100, self._LEVEL3_IMAGE_PATH)]
         self.duration = 180
