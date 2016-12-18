@@ -2,6 +2,7 @@ import random
 import pygame
 from animation import BlueExplosion, RedExplosion
 from box import Box
+from level import Level
 from player import Player
 from shield import Shield
 from ship_factory import ShipFactory
@@ -22,6 +23,7 @@ class Game:
         self.animations = {0: BlueExplosion(), 1: RedExplosion()}
         self.animation_type = 0
         self.top_bar = TopBar()
+        self.level = Level()
 
     def update_enemies(self):
         if self.frames_count % 180 == 0:
@@ -40,6 +42,7 @@ class Game:
                 self.player.score += enemy.points
                 self.animation_type = random.randint(0, 1)
                 self.animations[self.animation_type].change_postion(enemy.rect.x - 40, enemy.rect.y - 30)
+                self.level.levels[self.level.current_level] -= 1
                 self.enemies.remove(enemy)
 
     def update_shield(self):
@@ -98,6 +101,7 @@ class Game:
         self.update_enemies()
         self.update_box()
         self.update_shield()
+        self.level.update()
 
     def draw(self):
         self.missiles.draw(self.main_screen)
@@ -107,7 +111,9 @@ class Game:
             self.main_screen.blit(self.box.image, (self.box.rect.x, self.box.rect.y))
         self.main_screen.blit(self.shield.image, (self.shield.rect.x, self.shield.rect.y))
         self.animations[self.animation_type].show(self.main_screen)
-        self.top_bar.draw(self.main_screen, self.player.rockets, self.player.blue_laser, self.player.score)
+        self.top_bar.draw(self.main_screen, self.player.rockets, self.player.blue_laser, self.player.score,
+                          self.level.levels, self.level.current_level)
+        self.level.show(self.main_screen)
 
     def reset(self):
         self.frames_count = 0
@@ -116,3 +122,4 @@ class Game:
         self.top_bar = TopBar()
         self.missiles.empty()
         self.enemies.empty()
+        self.level = Level()

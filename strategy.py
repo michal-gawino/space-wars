@@ -3,7 +3,7 @@ import math
 
 class Strategy:
 
-    def execute(self):
+    def execute(x, y, speed, start_y):
         raise NotImplementedError()
 
 class SineMovement(Strategy):
