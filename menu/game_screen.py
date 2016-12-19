@@ -1,10 +1,11 @@
 import pygame
+
 from game import Game
-from image import Image
+from menu.image import Image
 from menu.game_over_screen import GameOverScreen
 from menu.game_won_screen import GameWonScreen
 from menu.screen import Screen
-from star import Star
+from menu.star import Star
 
 
 class GameScreen(Screen):

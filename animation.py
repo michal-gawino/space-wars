@@ -1,5 +1,6 @@
 import pygame
-from image import Image
+
+from menu.image import Image
 
 
 class Animation(pygame.sprite.Sprite):
@@ -7,7 +8,7 @@ class Animation(pygame.sprite.Sprite):
         super().__init__()
         self.frame = -1
 
-    def change_postion(self, x, y):
+    def change_position(self, x, y):
         self.frame = 0
         for image in self.images:
             image.rect.x, image.rect.y = x, y

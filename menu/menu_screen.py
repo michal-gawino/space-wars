@@ -1,6 +1,8 @@
 import itertools
+
 import pygame
-from image import Image
+
+from menu.image import Image
 from menu.button import Button
 from menu.game_screen import GameScreen
 from menu.instruction_screen import InstructionScreen

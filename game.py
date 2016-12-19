@@ -1,13 +1,13 @@
 import random
 import pygame
+from pygame.sprite import collide_rect, spritecollide
 from animation import BlueExplosion, RedExplosion
 from box import Box
 from level import Level
 from player import Player
 from shield import Shield
 from ship_factory import ShipFactory
-from pygame.sprite import collide_rect, spritecollide
-from top_bar import TopBar
+from menu.top_bar import TopBar
 
 
 class Game:
@@ -43,7 +43,7 @@ class Game:
             if enemy.health <= 0:
                 self.player.score += enemy.points
                 self.animation_type = random.randint(0, 1)
-                self.animations[self.animation_type].change_postion(enemy.rect.x - 40, enemy.rect.y - 30)
+                self.animations[self.animation_type].change_position(enemy.rect.x - 40, enemy.rect.y - 30)
                 self.level.levels[self.level.current_level] -= 1
                 self.enemies.remove(enemy)
 

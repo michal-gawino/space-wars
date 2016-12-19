@@ -1,5 +1,5 @@
 import pygame
-from image import Image
+from menu.image import Image
 
 
 class TopBar:

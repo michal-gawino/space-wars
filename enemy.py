@@ -1,21 +1,22 @@
 from missile import *
 from root import PROJECT_IMAGES
-from strategy import SineMovement, LinearMovement, CosineMovement
 
 
 class Enemy(GameObject):
     _IMAGE_PATH = os.path.join(PROJECT_IMAGES, 'alien.png')
 
-    def __init__(self, x, y, health, speed, points):
+    def __init__(self, x, y, health, speed, points, strategy):
         super().__init__(x, y)
         self.start_y = y
         self.health = health
         self.speed = speed
         self.points = points
         self.timer = 0
+        self.strategy = strategy
 
     def move(self):
-        pass
+        self.check_boundary()
+        self.rect.x, self.rect.y = self.strategy.execute(self.rect.x, self.rect.y, self.speed, self.start_y)
 
     def attack(self):
         pass
@@ -40,11 +41,6 @@ class Alien(Enemy):
             self.timer = 0
             return YellowBeam(self.rect.x - 60, self.rect.y + 20, 32, abs(self.speed) + 1)
 
-    def move(self):
-        self.check_boundary()
-        self.rect.x, self.rect.y = CosineMovement.execute(self.rect.x, self.rect.y, self.speed, self.start_y)
-
-
 
 class Razor(Enemy):
     _IMAGE_PATH = os.path.join(PROJECT_IMAGES, 'razor.png')
@@ -57,10 +53,6 @@ class Razor(Enemy):
             self.timer = 0
             return Mine(self.rect.x - 30, self.rect.y + 20, 23, abs(self.speed) + 1)
 
-    def move(self):
-        self.check_boundary()
-        self.rect.x, self.rect.y = SineMovement.execute(self.rect.x, self.rect.y, self.speed, self.start_y)
-
 
 class SpaceStation(Enemy):
     _IMAGE_PATH = os.path.join(PROJECT_IMAGES, 'space_station.png')
@@ -72,7 +64,3 @@ class SpaceStation(Enemy):
         if self.timer == 100:
             self.timer = 0
             return SpaceRing(self.rect.x - 40, self.rect.y + 20, 19, abs(self.speed) + 1)
-
-    def move(self):
-        self.check_boundary()
-        self.rect.x, self.rect.y = LinearMovement.execute(self.rect.x, self.rect.y, self.speed)

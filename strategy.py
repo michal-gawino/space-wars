@@ -6,6 +6,7 @@ class Strategy:
     def execute(x, y, speed, start_y):
         raise NotImplementedError()
 
+
 class SineMovement(Strategy):
 
     def execute(x, y, speed, start_y):

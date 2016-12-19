@@ -1,4 +1,4 @@
-from image import Image
+from menu.image import Image
 
 
 class Button(Image):
