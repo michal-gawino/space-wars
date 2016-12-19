@@ -20,5 +20,5 @@ class CosineMovement(Strategy):
 
 class LinearMovement(Strategy):
 
-    def execute(x, y, speed):
+    def execute(x, y, speed, start_y):
         return x - abs(speed), y - speed

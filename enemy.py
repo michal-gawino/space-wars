@@ -26,18 +26,18 @@ class Enemy(GameObject):
             self.speed *= -1
 
     def time_shooting(self):
-        if self.timer < 120:
+        if self.timer < 140:
             self.timer += 1
 
 
 class Alien(Enemy):
     _IMAGE_PATH = os.path.join(PROJECT_IMAGES, 'alien.png')
 
-    def __init__(self, x, y, health, speed, points):
-        super().__init__(x, y, health, speed, points)
+    def __init__(self, x, y, health, speed, points, strategy):
+        super().__init__(x, y, health, speed, points, strategy)
 
     def attack(self):
-        if self.timer == 120:
+        if self.timer == 140:
             self.timer = 0
             return YellowBeam(self.rect.x - 60, self.rect.y + 20, 32, abs(self.speed) + 1)
 
@@ -45,11 +45,11 @@ class Alien(Enemy):
 class Razor(Enemy):
     _IMAGE_PATH = os.path.join(PROJECT_IMAGES, 'razor.png')
 
-    def __init__(self, x, y, health, speed, points):
-        super().__init__(x, y, health, speed, points)
+    def __init__(self, x, y, health, speed, points, strategy):
+        super().__init__(x, y, health, speed, points, strategy)
 
     def attack(self):
-        if self.timer == 120:
+        if self.timer == 125:
             self.timer = 0
             return Mine(self.rect.x - 30, self.rect.y + 20, 23, abs(self.speed) + 1)
 
@@ -57,8 +57,8 @@ class Razor(Enemy):
 class SpaceStation(Enemy):
     _IMAGE_PATH = os.path.join(PROJECT_IMAGES, 'space_station.png')
 
-    def __init__(self, x, y, health, speed, points):
-        super().__init__(x, y, health, speed, points)
+    def __init__(self, x, y, health, speed, points, strategy):
+        super().__init__(x, y, health, speed, points, strategy)
 
     def attack(self):
         if self.timer == 100:
